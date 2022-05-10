@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ticket.TicketName}}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div id="b_ticketDetail" class="container d-flex">
+        <div class="row row-cols-2 mx-5">
+            <div class="col">
+                TicketID:
+            </div>
+            <div class="col">
+                {{ticket.TicketID}}
+            </div>
+            <div class="col">
+                Name:
+            </div>
+            <div class="col">
+                {{ticket.TicketName}}
+            </div>
+            <div class="col">
+                Description:
+            </div>
+            <div class="col">
+                {{ticket.Description}}
+            </div>
+            <div class="col">
+                Current status:
+            </div>
+            <div class="col">
+                {{ticket.get_Status_display}}
+            </div>
+            <div class="col">
+                Issue Date:
+            </div>
+            <div class="col">
+                {{ticket.IssueDate}}
+            </div>
+            <div class="col">
+                Issued By:
+            </div>
+            <div class="col">
+                {{ticket.UserID.Username}}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
