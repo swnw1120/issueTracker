@@ -1,10 +1,6 @@
-from email.message import Message
 from django.db import models
-
+from login.models import User
 # Create your models here.
-class User(models.Model):
-    UserID = models.AutoField(primary_key=True)
-    Username = models.CharField(max_length=45)
 
 class Ticket(models.Model):
     STATUS_OPTION = (
@@ -18,7 +14,7 @@ class Ticket(models.Model):
     Status = models.CharField(max_length=1, choices=STATUS_OPTION)
     IssueDate = models.DateTimeField(auto_now_add=True)
     UserID = models.ForeignKey(
-        'User',
+        User,
         on_delete= models.PROTECT
     )
 
@@ -27,7 +23,7 @@ class Chatroom(models.Model):
     ChatMessage = models.CharField(max_length=200)
     SentTime = models.DateTimeField(auto_now_add=True)
     UserID = models.ForeignKey(
-        'User',
+        User,
         on_delete= models.RESTRICT
     )
     TicketID = models.ForeignKey(
