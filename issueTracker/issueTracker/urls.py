@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
 from tracker import views
+from login import views
 
 urlpatterns = [
     path('tracker/', include('tracker.urls')),
-    path('', RedirectView.as_view(url='tracker/'), name='homepage'),
+    path('login/', include('login.urls')),
+    path('', RedirectView.as_view(url='login/'), name='loginpage'),
     path('admin/', admin.site.urls),
 ]

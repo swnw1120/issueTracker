@@ -36,7 +36,7 @@ def addTicket(request):
             record.UserID = userInstance
             record.save()
             # Return to the homepage after inserting
-            return redirect('homepage')
+            return redirect('tracker:homepage')
 
 # With GET request, allow the user to select tickets to delete
 # With POST request, remove the selected tickets from the database
@@ -49,7 +49,7 @@ def deleteTicket(request):
         for record in recordsToDelete:
             r = Ticket.objects.filter(TicketID=record)
             r.delete()
-        return redirect('homepage')
+        return redirect('tracker:homepage')
 
 # Generate a form with preset values for the user to edit
 def updateTicket(request):
@@ -71,7 +71,7 @@ def confirmUpdate(request):
             ticket.Description = form.cleaned_data['Description']
             ticket.Status = form.cleaned_data['Status']
             ticket.save()
-            return redirect('homepage')
+            return redirect('tracker:homepage')
         else:
             print("Error:")
             print(form.errors)
