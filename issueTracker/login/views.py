@@ -14,8 +14,11 @@ def generateKey(key_Length):
     return ''.join(random.choice(letters) for i in range(key_Length))
 
 def getLoginPage(request):
-    form = LoginForm()
-    return render(request, 'loginpage.html', { 'loginForm': form })
+    session_key = request.COOKIES.get("session_key")
+    if session_key is None:
+        form = LoginForm()
+        return render(request, 'loginpage.html', { 'loginForm': form })
+    return redirect('tracker:homepage')
 
 def postLoginPage(request):
     args = {}
@@ -27,6 +30,7 @@ def postLoginPage(request):
         new_Session_Key = generateKey(LOGIN_KEY_LEN)
         new_Session.SessionKey = new_Session_Key
         new_Session.UserID = user_object
+        new_Session.save()
         response = redirect('tracker:homepage')
         response.set_cookie('session_key', new_Session_Key)
         return response
@@ -51,8 +55,17 @@ def postSignUpPage(request):
         new_Session_Key = generateKey(LOGIN_KEY_LEN)
         new_Session.SessionKey = new_Session_Key
         new_Session.UserID = new_user
+        new_Session.save()
         response = redirect('tracker:homepage')
         response.set_cookie('session_key', new_Session_Key)
         return response
     args['form'] = form
     return render(request, 'signuppage.html', { 'SignupForm': form })
+
+def logout(request):
+    session_Key = request.COOKIES.get("session_key")
+    session_Record = Session.objects.filter(SessionKey=session_Key)
+    session_Record.delete()
+    response = redirect('loginpage')
+    response.delete_cookie('session_key')
+    return response

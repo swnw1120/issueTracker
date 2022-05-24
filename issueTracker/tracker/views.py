@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from tracker.models import User, Ticket, Chatroom
+from login.models import Session
 from .forms import TicketForm, UpdateForm
 
 # Display homepage
@@ -32,8 +33,12 @@ def addTicket(request):
             record.Description = form.cleaned_data['Description']
             record.Status = 1
 
-            userInstance = User.objects.get(UserID = 1)
-            record.UserID = userInstance
+            user_key = request.COOKIES.get("session_key")
+            user = Session.objects.get(SessionKey = user_key)
+
+
+            # userInstance = User.objects.get(UserID = 1)
+            record.UserID = user.UserID
             record.save()
             # Return to the homepage after inserting
             return redirect('tracker:homepage')
