@@ -4,11 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from tracker.models import User, Ticket, Chatroom
 from login.models import Session
-from .forms import TicketForm, UpdateForm
-
-# Display homepage
-def index(request):
-    return render(request, 'homepage.html')
+from .forms import TicketForm, UpdateForm, ConvoForm
 
 # Display all tickets in the database on the homepage
 def showTicketData(request):
@@ -83,9 +79,24 @@ def confirmUpdate(request):
     return None
 
 # Display ticket data in an organised format
-def viewTicket(request):
-    if request.method == 'POST':
-        selected_ticket_id = request.POST.get('ticketID')
-        selected_ticket = Ticket.objects.get(TicketID=selected_ticket_id)
-        return render(request, 'viewTicketDetailpage.html', {'ticket': selected_ticket})
+def viewTicket(request, ticketID):
+    selected_ticket = Ticket.objects.get(TicketID=ticketID)
+
+    form = ConvoForm()
+
+    current_convo = Chatroom.objects.filter(TicketID=ticketID)
+
+    return render(request, 'viewTicketDetailpage.html', {'ticket': selected_ticket, 'form': form, 'message': current_convo})
+
+def addConvo(request):
+    form = ConvoForm(request.POST)
+    if form.is_valid():
+        ticket_id = request.POST.get('TicketID')
+        user_id = request.POST.get('UserID')
+        new_message = Chatroom()
+        new_message.ChatMessage = form.cleaned_data['ChatMessage']
+        new_message.TicketID = Ticket.objects.get(TicketID = ticket_id)
+        new_message.UserID = User.objects.get(UserID = user_id)
+        new_message.save()
+        return redirect('tracker:ticket', ticketID = ticket_id)
     return None

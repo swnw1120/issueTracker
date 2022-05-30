@@ -20,7 +20,7 @@ class Ticket(models.Model):
 
 class Chatroom(models.Model):
     ChatroomID = models.AutoField(primary_key=True)
-    ChatMessage = models.CharField(max_length=200)
+    ChatMessage = models.TextField(max_length=200)
     SentTime = models.DateTimeField(auto_now_add=True)
     UserID = models.ForeignKey(
         User,

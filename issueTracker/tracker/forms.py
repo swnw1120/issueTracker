@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Ticket
+from .models import Chatroom, Ticket
 
 class TicketForm(ModelForm):
     class Meta:
@@ -16,3 +16,13 @@ class UpdateForm(ModelForm):
     class Meta:
         model = Ticket
         fields = ['TicketName', 'Description', 'Status']
+
+class ConvoForm(ModelForm):
+    class Meta:
+        model = Chatroom
+        fields = ['ChatMessage']
+
+    def __init__(self,*args, **kwargs):
+        super(ConvoForm, self).__init__(*args, **kwargs)
+    
+        self.fields['ChatMessage'].widget.attrs['placeholder'] = "Enter new comment here."
