@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+{{ticket.TicketName}}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <div id="b_ticketDetail" class="container d-flex flex-column">
+        <h3>{{ticket.TicketName}}</h3>
+        <div class="row row-cols-2 mx-5">
+            <div class="col">
+                Description:
+            </div>
+            <div class="col">
+                {{ticket.Description}}
+            </div>
+            <div class="col">
+                Current status:
+            </div>
+            <div class="col">
+                {{ticket.get_Status_display}}
+            </div>
+            <div class="col">
+                Issue Date:
+            </div>
+            <div class="col">
+                {{ticket.IssueDate}}
+            </div>
+            <div class="col">
+                Issued By:
+            </div>
+            <div class="col">
+                {{ticket.UserID.Username}}
+            </div>
+        </div>
+    </div>
+    <div id="b_ticketConvo" class="container mt-3 d-flex flex-column">
+        <h3>Comment</h3>
+        
+            <ul class="list-group list-group-flush">
+            {% for m in message %}
+                <li class="list-group-item">
+                    <div class="container d-flex flex-column">
+                        <h4>{{m.UserID.Username}}</h4>
+                        <p>{{m.ChatMessage}}</p>
+                        <h5>{{m.SentTime}}</h5>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+    </div>
+    <div id="b_ticketConvoForm" class="container d-flex flex-column mt-3">
+        <h3>Add Comment</h3>
+        <form action={% url 'tracker:addConvo' %} method="post">
+            {% csrf_token %}
+            <input type="hidden" id="TicketID" name="TicketID" value="{{ticket.TicketID}}">
+            <input type="hidden" id="UserID" name="UserID" value="{{ticket.UserID.UserID}}">
+            <div class="form-group mt-3">
+                <label for={{ form.ChatMessage.id_for_label }}></label>
+                {{ form.ChatMessage|add_class:'form-control' }}
+            </div>
+            <button type="submit" class="btn btn-primary my-3 float-right"><i class="bi bi-arrow-right"></i>Send</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

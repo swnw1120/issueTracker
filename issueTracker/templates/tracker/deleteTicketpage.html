@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Ticket
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-3">
+    <h3 class="my-3">Delete tickets</h3>
+    <p class="mb-3">Please tick the corresponding boxes to remove the tickets.</p>
+    <form action="deleteTicketpage" method="post">
+        {{form.as_p}}
+
+        <table class="table mt-3 border border-3 rounded border-white bg-light">
+            <tr>
+                <th scope="col">Ticket ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Issue Date</th>
+                <th scope="col">Created By</th>
+                <th scope="col">Status</th>
+                <th scope="col">Select</th>
+            </tr>
+
+            {% for t in tickets %}
+            <tr>
+                <td>{{t.TicketID}}</td>
+                <td>{{t.TicketName}}</td>
+                <td>{{t.IssueDate}}</td>
+                <td>{{t.UserID.Username}}</td>
+                <td>{{t.get_Status_display}}</td>
+                <td>
+                    <div class="container d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" name="selected_options" value={{t.TicketID}}>
+                    </div>
+                </td>
+
+                {% endfor %}
+
+            </tr>
+
+        </table>
+
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+{% endblock %}

@@ -13,7 +13,10 @@ Bootstrap 5
 
 Current functionality:
 Display, create, edit and delete tickets
-
-Need to implement:
 User Authentication
 Forum for communication
+
+Need to implement:
+Delete comments
+Use Password to login
+Add levels of access for tickets

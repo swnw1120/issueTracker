@@ -1,0 +1,36 @@
+{% extends "loginBase.html" %}
+
+<!--Load widget_tweaks-->
+{% load widget_tweaks %}
+
+{% block title %}
+IssueTracker: Sign Up
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5 d-flex align-items-center">
+    <div class="container mt-5 d-flex justify-content-center">
+        <h2>Sign up</h2>
+    </div>
+</div>
+<div class="container mt-5 d-flex align-items-center">
+    <div class="container mt-5 d-flex justify-content-center">
+        <form action="postsignuppage" method="post">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                {{ SignupForm.errors.Username }}
+                <label class="mb-2" for={{ SignupForm.Username.id_for_label }}>Username</label>
+                {{ SignupForm.Username|add_class:'form-control' }}
+            </div>
+            <div class="container mt-5 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary "><i class="bi bi-box-arrow-right"></i>Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container mt-5 d-flex align-items-center">
+    <div class="container mt-5 d-flex justify-content-center">
+        <p>Already have an account? Sign in </p><a class="mx-1" href="{% url 'login:loginpage' %}"> here</a>
+    </div>
+</div>
+{% endblock %}
