@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
@@ -9,5 +9,6 @@ urlpatterns = [
     path('deleteTicketpage', views.deleteTicket, name='deleteTicketpage'),
     path('updateTicketpage', views.updateTicket, name='updateTicketpage'),
     path('confirmUpdate', views.confirmUpdate, name='updateConfirmation'),
-    path('viewTicketDetail', views.viewTicket, name='viewTicketDetail'),
+    re_path(r'viewticket/(?P<ticketID>[0-9]+)', views.viewTicket, name='ticket'),
+    path('addConvo', views.addConvo, name='addConvo'),
 ]
