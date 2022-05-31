@@ -32,8 +32,6 @@ def addTicket(request):
             user_key = request.COOKIES.get("session_key")
             user = Session.objects.get(SessionKey = user_key)
 
-
-            # userInstance = User.objects.get(UserID = 1)
             record.UserID = user.UserID
             record.save()
             # Return to the homepage after inserting
@@ -58,7 +56,7 @@ def updateTicket(request):
         selected_ticket_id = request.POST.get('ticketID')
         selected_ticket = Ticket.objects.get(TicketID=selected_ticket_id)
         updateform = UpdateForm(instance=selected_ticket)
-        return render(request, 'updateTicketpage.html', {'updateForm': updateform, 'ticketID': selected_ticket_id})
+        return render(request, 'updateTicketpage.html', {'updateForm': updateform, 'ticketID': selected_ticket_id, 'ticketName': selected_ticket.TicketName})
     return None
 
 # Check if the edited data is valid and make the changes on the database
@@ -81,13 +79,11 @@ def confirmUpdate(request):
 # Display ticket data in an organised format
 def viewTicket(request, ticketID):
     selected_ticket = Ticket.objects.get(TicketID=ticketID)
-
     form = ConvoForm()
-
     current_convo = Chatroom.objects.filter(TicketID=ticketID)
-
     return render(request, 'viewTicketDetailpage.html', {'ticket': selected_ticket, 'form': form, 'message': current_convo})
 
+# Adding a message to the database when the form is submitted
 def addConvo(request):
     form = ConvoForm(request.POST)
     if form.is_valid():
@@ -98,5 +94,6 @@ def addConvo(request):
         new_message.TicketID = Ticket.objects.get(TicketID = ticket_id)
         new_message.UserID = User.objects.get(UserID = user_id)
         new_message.save()
+        # Refresh the current page to see the new message
         return redirect('tracker:ticket', ticketID = ticket_id)
     return None

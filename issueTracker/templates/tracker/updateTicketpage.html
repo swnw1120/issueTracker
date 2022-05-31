@@ -7,25 +7,28 @@ Update Ticket
 {% endblock %}
 
 {% block body %}
-<form action="confirmUpdate" method="post">
-    {% csrf_token %}
-    <input type="hidden" id="TicketID" name="TicketID" value="{{ticketID}}">
-    <div class="form-group mt-3">
-        {{ updateForm.TicketName.errors }}
-        <label class="form-label" for={{ updateForm.TicketName.id_for_label }}>Ticket title</label>
-        {{ updateForm.TicketName|add_class:'form-control'  }} 
-        
-    </div>
-    <div class="form-group mt-3">
-        {{ updateForm.Description.errors }}
-        <label class="form-label" for={{ updateForm.Description.id_for_label }}>Description</label>
-        {{updateForm.Description|add_class:'form-control' }}
-    </div>
-    <div class="form-group mt-3">
-        {{ updateForm.Status.errors }}
-        <label class="form-label" for={{ updateForm.Status.id_for_label }}>Status</label>
-        {{ updateForm.Status|add_class:'form-control'  }}
-    </div>
-    <button class="btn btn-primary mt-3" type="submit">Submit</button>
-</form>
+<div class="container my-3">
+    <h3>Update Details for {{ticketName}}</h3>
+    <form action="confirmUpdate" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="TicketID" name="TicketID" value="{{ticketID}}">
+        <div class="form-group mt-3">
+            {{ updateForm.TicketName.errors }}
+            <label class="form-label" for={{ updateForm.TicketName.id_for_label }}>Ticket title</label>
+            {{ updateForm.TicketName|add_class:'form-control'  }} 
+            
+        </div>
+        <div class="form-group mt-3">
+            {{ updateForm.Description.errors }}
+            <label class="form-label" for={{ updateForm.Description.id_for_label }}>Description</label>
+            {{updateForm.Description|add_class:'form-control' }}
+        </div>
+        <div class="form-group mt-3">
+            {{ updateForm.Status.errors }}
+            <label class="form-label" for={{ updateForm.Status.id_for_label }}>Status</label>
+            {{ updateForm.Status|add_class:'form-control'  }}
+        </div>
+        <button class="btn btn-primary mt-3" type="submit">Submit</button>
+    </form>
+</div>
 {% endblock %}

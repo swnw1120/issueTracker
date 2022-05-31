@@ -5,9 +5,9 @@ homepage
 {% endblock %}
 
 {% block body %}
-<div class="container d-flex flex-column">
+<div class="container my-3 d-flex flex-column">
     <h3 class="mt-5">All Tickets</h3>
-    <table class="table mt-5 border border-3 rounded border-white bg-light">
+    <table id="mainTable" class="table mt-5 border border-3 rounded border-white bg-light table-hover">
         <thead>
             <tr>
                 <th scope="col">TicketID</th>
@@ -45,4 +45,9 @@ homepage
         </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function(){
+        $('#mainTable').dataTable();
+    });
+</script>
 {% endblock %}
